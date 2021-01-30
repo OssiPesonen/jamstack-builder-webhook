@@ -10,9 +10,9 @@ const app = express();
 
 const port = process.env.BUILDER_PORT;
 const secret = process.env.BUILDER_WEBHOOK_SECRET;
-const sigHeaderName = 'X-Hub-Signature'
+const sigHeaderName = 'X-Hub-Signature';
 
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 /**
  * Verifies Github webhook event signature
@@ -22,31 +22,31 @@ app.use(bodyParser.json())
  * @param next
  * @returns {*}
  */
-function verifyPostData(req, res, next) {
-  const payload = JSON.stringify(req.body)
+function verifyPostData (req, res, next) {
+  const payload = JSON.stringify(req.body);
 
   if (!payload) {
-    return next('Request body empty')
+    return next('Request body empty');
   }
 
-  const sig = req.get(sigHeaderName) || ''
-  const hmac = crypto.createHmac('sha1', secret)
-  const digest = Buffer.from('sha1=' + hmac.update(payload).digest('hex'), 'utf8')
-  const checksum = Buffer.from(sig, 'utf8')
+  const sig = req.get(sigHeaderName) || '';
+  const hmac = crypto.createHmac('sha1', secret);
+  const digest = Buffer.from('sha1=' + hmac.update(payload).digest('hex'), 'utf8');
+  const checksum = Buffer.from(sig, 'utf8');
 
   if (checksum.length !== digest.length || !crypto.timingSafeEqual(digest, checksum)) {
-    return next(`Request body digest (${digest}) did not match ${sigHeaderName} (${checksum})`)
+    return next(`Request body digest (${digest}) did not match ${sigHeaderName} (${checksum})`);
   }
 
-  console.log("Github webhook signature valid");
+  console.log('Github webhook signature validated');
 
-  return next()
+  return next();
 }
 
 /**
  * Initiate the build process and log stdout
  */
-function redeploy() {
+function redeploy () {
   const child = spawn(process.env.BUILDER_EXEC, [], { shell: true });
 
   child.stdout.on('data',
@@ -71,14 +71,14 @@ app.post('/' + process.env.BUILDER_CONTENT_WEBHOOK_PATH, (req, res) => {
     res.sendStatus(403);
   }
 
-  console.log("Re-generating front-end application...");
+  console.log('Re-building front-end application...');
 
   redeploy();
   res.sendStatus(200);
 });
 
 app.post('/' + process.env.BUILDER_GITHUB_WEBHOOK_PATH, verifyPostData, (req, res) => {
-  console.log("Re-deploying front-end application...");
+  console.log('Re-deploying front-end application...');
 
   redeploy();
   res.sendStatus(200);

@@ -1,11 +1,11 @@
 {
   "name": "jamstack-builder",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.1",
+  "description": "An automated build tool for JAMStack which allows you to use Github webhooks to initiate a new deployment, or your CMS to initiate a re-build",
+  "main": "server.js",
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Ossi Pesonen",
+  "license": "MIT",
   "dependencies": {
     "body-parser": "^1.19.0",
     "crypto": "^1.0.1",
