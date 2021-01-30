@@ -24,6 +24,21 @@ Example command for `BUILDER_EXEC` on how to rebuild Nuxt.js JAMStack app and re
 
     cd /var/www/html; npm run build && npm run generate && pm2 restart <ProcessName>
 
+Another would be to just call a bash script:
+
+    . /var/www/build
+
+And that bash script would include something like this
+
+    #!/bin/bash
+    
+    cd /var/www/html;
+    git pull;
+    npm install;
+    npm run build && npm run generate && pm2 restart <ProcessName>;
+
+A better option would be to use a separate directory to host the repository and then copy files to the public one, leaving git and other deployment/development stuff behind.
+
 ## Security considerations
 
 > :warning: **Some caution is advised**
