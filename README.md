@@ -10,18 +10,19 @@ This application has only been tested on a Linux server with a successful build 
 1. Clone this repo
 2. Run `npm install` or `yarn install`. 
 3. Copy `.env.dist` as `.env` and set your variable values.
-4. Do a POST call to your server's address with the specified port and path. Don't forget to include the additional header, if you set one. `POST http://localhost:8082/gxrjg4y6s6kjshznb1a5`
+4. Start the server using pm2 with `pm2 start server.js` or just `node server.js`   
+4. Do a POST call to your server's address with the specified `BUILDER_PORT` and `BUILDER_WEBHOOK_HASH`. Don't forget to include the additional header, if you set one in the `BUILDER_REQ_HEADER`. For example `POST http://localhost:8082/gxrjg4y6s6kjshznb1a5` (with headers).
 
 ## Recommendations
 
 - Install a process manager like [pm2](https://www.npmjs.com/package/pm2) to manage this server and your front-end
-- Use a CMS which can automatically call your webhook, like [Strapi](https://strapi.io) when content changes
+- Use a CMS which can automatically call your webhook, like [Strapi](https://strapi.io), when content changes.
 
 ## Example commands
 
 Example command for `BUILDER_EXEC` on how to rebuild Nuxt.js JAMStack app and restart process manager (pm2) so  it's loaded.   
 
-    cd /var/www/html; npm run build && npm run generate && pm2 restart Nuxt
+    cd /var/www/html; npm run build && npm run generate && pm2 restart <ProcessName>
 
 ## Security considerations
 
