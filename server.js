@@ -16,10 +16,10 @@ app.post('/' + process.env.BUILDER_WEBHOOK_HASH, (req, res) => {
       res.sendStatus(403);
     }
     else if (header === process.env.BUILDER_REQ_HEADER_VALUE) {
-      spawn(process.env.BUILDER_EXEC, [], { detached: true });
+      spawn(process.env.BUILDER_EXEC, [], { detached: true, shell: true });
     }
   } else {
-    spawn(process.env.BUILDER_EXEC, [], { detached: true });
+    spawn(process.env.BUILDER_EXEC, [], { detached: true, shell: true });
   }
 
   res.sendStatus(200);
