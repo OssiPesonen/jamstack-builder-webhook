@@ -34,6 +34,7 @@ And that bash script would include something like this
     
     cd /var/www/html;
     git pull;
+    rm -rm node_modules;
     npm install;
     npm run build && npm run generate && pm2 restart <ProcessName>;
 
