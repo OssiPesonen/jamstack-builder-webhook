@@ -14,6 +14,20 @@ This application has only been tested on a Linux server with a successful build 
 5. Do a POST call to your server's address with the specified `BUILDER_PORT` and `BUILDER_CONTENT_WEBHOOK_PATH`. Don't forget to include the additional header, if you set one in the `BUILDER_REQ_HEADER`. For example `POST http://localhost:8082/gxrjg4y6s6kjshznb1a5` (with headers).
 6. (optional) Set your Github repository webhook to point to the same server,to `BUILDER_GITHUB_WEBHOOK_PATH`, and set the same secret as the content (or change the server implementation if you want different secrets) 
 
+## Example .env file
+
+BUILDER_CONTENT_WEBHOOK_PATH=abcd12345
+
+BUILDER_GITHUB_WEBHOOK_PATH=deploy
+
+BUILDER_PORT=8080
+
+BUILDER_EXEC=". /var/www/jamstack-builder-webhook/build"
+
+BUILDER_SECRET_HEADER_NAME=WEBHOOK_KEY
+
+BUILDER_WEBHOOK_SECRET=iambatman
+
 ## Recommendations
 
 - Install a process manager like [pm2](https://www.npmjs.com/package/pm2) to manage this server and your front-end
