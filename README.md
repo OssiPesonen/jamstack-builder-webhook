@@ -16,6 +16,7 @@ This application has only been tested on a Linux server with a successful build 
 
 ## Example .env file
 
+```bash
 BUILDER_CONTENT_WEBHOOK_PATH=abcd12345
 
 BUILDER_GITHUB_WEBHOOK_PATH=deploy
@@ -27,6 +28,7 @@ BUILDER_EXEC=". /var/www/jamstack-builder-webhook/build"
 BUILDER_SECRET_HEADER_NAME=WEBHOOK_KEY
 
 BUILDER_WEBHOOK_SECRET=iambatman
+```
 
 ## Recommendations
 
