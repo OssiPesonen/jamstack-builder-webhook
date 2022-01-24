@@ -25,9 +25,11 @@ BUILDER_PORT=8080
 
 BUILDER_EXEC=". /var/www/jamstack-builder-webhook/build"
 
-BUILDER_SECRET_HEADER_NAME=WEBHOOK_KEY
+BUILDER_HEADER_BODY_KEY=WEBHOOK_KEY
 
 BUILDER_WEBHOOK_SECRET=iambatman
+
+NODE_PATH=
 ```
 
 ## Recommendations
