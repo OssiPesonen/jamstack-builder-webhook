@@ -57,6 +57,14 @@ And that bash script would include something like this
 
 A better option would be to use a separate directory to host the repository and then copy files to the public one, leaving git and other deployment/development stuff behind.
 
+Another solution to run bash scripts is to not use the `shell` option with `spawn`, but rather use the command directly:
+
+```
+const child = spawn('bash', [process.env.BUILDER_EXEC]);
+````
+
+This means dropping the dot from the `BUILDER_EXEC` environment variable.
+
 ## Security considerations
 
 > :warning: **Some caution is advised**
