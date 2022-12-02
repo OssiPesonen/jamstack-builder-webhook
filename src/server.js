@@ -1,14 +1,20 @@
 require('dotenv').config();
 
-const express = require('express');
+const os = require('os');
+const fs = require('fs');
 const crypto = require('crypto');
+const express = require('express');
 const bodyParser = require('body-parser');
 const spawn = require('child_process').spawn;
+const { LockfileError } = require('./errors/lockfileError');
 
 // Prefix all logging with timestamp
 require('./utils/console-prefix');
 
 const app = express();
+
+const tempDir = os.tmpdir();
+const lockFile = tempDir + '/builderLockFile';
 
 const port = process.env.BUILDER_PORT;
 const secret = process.env.BUILDER_WEBHOOK_SECRET;
@@ -104,9 +110,26 @@ function redeploy () {
 function runDeployment (res) {
   try {
     console.log('Running deployment...');
+
+    // Lockfile has been created, we cannot proceed
+    if (fs.existsSync(lockFile)) {
+      throw new LockfileError("Lockfile exists, will not deploy");
+    }
+    
+    console.log("Creating lockfile..");
+    fs.closeSync(fs.openSync(lockFile, 'w'))
+
     redeploy();
+
+    fs.unlinkSync(lockFile);
+    console.log("Lockfile deleted");
   } catch (e) {
     console.error(e);
+
+    if (e instanceof LockfileError) {
+      return res.status(429).json({ success: false, message: "Another deployment is currently in progress. Your request cannot be served." });
+    }
+
     return res.status(500).json({ success: false, message: "An error has occurred. Build could not be triggered." });
   }
 
