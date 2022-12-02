@@ -97,6 +97,8 @@ function redeploy () {
   });
 
   child.on('close', function (code) {
+    fs.unlinkSync(lockFile);
+    console.log("Lockfile deleted");
     console.info('Deployment finished. Exited with code ' + code);
   });
 }
@@ -120,9 +122,6 @@ function runDeployment (res) {
     fs.closeSync(fs.openSync(lockFile, 'w'))
 
     redeploy();
-
-    fs.unlinkSync(lockFile);
-    console.log("Lockfile deleted");
   } catch (e) {
     console.error(e);
 
