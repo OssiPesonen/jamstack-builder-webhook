@@ -1,3 +1,5 @@
+This repository has been archived in favor of a [new implementation](https://github.com/OssiPesonen/builder-app-go) written in golang.
+
 # Jamstack builder app
 
 This app serves a webhook, with a user specified path that can be called via HTTP POST to execute a server command.
